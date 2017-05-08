@@ -1792,16 +1792,16 @@
                                     <styles xsi:type="bwnotation:BackgroundStyle"/>
                                     <styles
                                     collapsed="true"
-                                    restoreHeight="143"
+                                    restoreHeight="142"
                                     restoreWidth="650"
                                     restoreX="2"
-                                    restoreY="42" xsi:type="bwnotation:ResizingStyle"/>
+                                    restoreY="428" xsi:type="bwnotation:ResizingStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.0/@messages.2"/>
                                     <layoutConstraint
                                     height="22"
                                     width="650"
                                     x="2"
-                                    xsi:type="notation:Bounds" y="427"/>
+                                    xsi:type="notation:Bounds" y="428"/>
                                     </children>
                                     <children type="4011">
                                     <children type="3012">
@@ -2144,7 +2144,7 @@
                                     height="22"
                                     width="650"
                                     x="2"
-                                    xsi:type="notation:Bounds" y="448"/>
+                                    xsi:type="notation:Bounds" y="449"/>
                                     </children>
                                     <children type="4011">
                                     <children type="3012">
@@ -2434,7 +2434,7 @@
                                     height="22"
                                     width="650"
                                     x="2"
-                                    xsi:type="notation:Bounds" y="469"/>
+                                    xsi:type="notation:Bounds" y="470"/>
                                     </children>
                                     <children type="4011">
                                     <children type="3012">
@@ -2723,7 +2723,7 @@
                                     height="22"
                                     width="650"
                                     x="2"
-                                    xsi:type="notation:Bounds" y="490"/>
+                                    xsi:type="notation:Bounds" y="491"/>
                                     </children>
                                     <styles xsi:type="notation:SortingStyle"/>
                                     <styles xsi:type="notation:FilteringStyle"/>
@@ -2735,7 +2735,7 @@
                                     restoreWidth="669" xsi:type="bwnotation:ResizingStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.0"/>
                                     <layoutConstraint
-                                    height="542" width="95" xsi:type="notation:Bounds"/>
+                                    height="543" width="95" xsi:type="notation:Bounds"/>
                                     </children>
                                     <styles xsi:type="notation:DrawerStyle"/>
                                     <styles xsi:type="notation:SortingStyle"/>
@@ -3307,7 +3307,7 @@
                             </bpws:extensionActivity>
                             <bpws:extensionActivity>
                                 <tibex:activityExtension
-                                    expression="0.50"
+                                    expression="0.75"
                                     expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"
                                     inputVariable="Discount"
                                     name="Discount"
@@ -3318,7 +3318,7 @@
                                     </bpws:sources>
                                     <tibex:inputBindings>
                                     <tibex:inputBinding
-                                    expression="0.50" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
+                                    expression="0.75" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
                                     </tibex:inputBindings>
                                     <tibex:config>
                                     <bwext:BWActivity
