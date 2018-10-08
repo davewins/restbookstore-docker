@@ -101,6 +101,17 @@
                 </complexContent>
             </complexType>
             <element name="ActivityTimedOutException" type="tns:ActivityTimedOutExceptionType"/>
+            <complexType name="DuplicateKeyExceptionType">
+                <complexContent>
+                    <extension base="tns:ActivityExceptionType">
+                        <sequence>
+                            <element name="duplicateKey" type="string"/>
+                            <element minOccurs="0" name="previousJobID" type="string"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <element name="DuplicateKeyException" type="tns:DuplicateKeyExceptionType"/>
         </schema>
         <schema
             targetNamespace="http://www.tibco.com/namespaces/tnt/plugins/jdbc+32e7a1f3-35b2-4464-8943-5c5b73b8bcf6+input"
@@ -392,10 +403,11 @@
             <wsdl:import namespace="http://xmlns.example.com/20141006121028"/>
         </wsdl:definitions>
     </tibex:Types>
-    <tibex:ProcessInfo createdBy="nshah"
+    <tibex:ProcessInfo callable="false" createdBy="nshah"
         createdOn="Mon Oct 06 12:10:28 IST 2014" description=""
-        modifiers="public" productVersion="1.2.0 V19 2014-10-04"
-        scalable="true" singleton="true" stateless="false" type="IT"/>
+        extraErrorVars="false" modifiers="public"
+        productVersion="1.2.0 V19 2014-10-04" scalable="true"
+        singleton="true" stateless="true" type="IT"/>
     <tibex:ProcessTemplateConfigurations/>
     <notation:Diagram measurementUnit="Pixel" type="BWProcess"
         xmlns:bwnotation="http://tns.tibco.com/bw/runtime/BWNotation"
@@ -955,7 +967,7 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.1/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.2"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.1/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.2"/>
 
                                     <layoutConstraint
                                     x="19"
@@ -980,7 +992,7 @@
 
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.1/@activity/@activity/@activities.3/@activity/@activity/@activity"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.1/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity"/>
 
                                     <layoutConstraint
                                     height="108"
@@ -1058,7 +1070,7 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.1/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.0"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.1/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.0"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -1110,7 +1122,7 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.1/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.1"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.1/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.1"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -2470,7 +2482,7 @@
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@activities.0/@messages.1/@activity/@activity/@activities.3/@activity/@activity/@activity/@links/@children.0"/>
+            <element href="//0/@process/@activity/@activity/@activities.0/@messages.1/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@links/@children.0"/>
             <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
@@ -2481,7 +2493,7 @@
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@activities.0/@messages.1/@activity/@activity/@activities.3/@activity/@activity/@activity/@links/@children.1"/>
+            <element href="//0/@process/@activity/@activity/@activities.0/@messages.1/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@links/@children.1"/>
             <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
@@ -2644,8 +2656,6 @@
                             </bpws:reply>
                             <bpws:extensionActivity>
                                 <tibex:activityExtension
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?> &lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.tibco.com/namespaces/tnt/plugins/jdbc+32e7a1f3-35b2-4464-8943-5c5b73b8bcf6+input&quot; version=&quot;2.0&quot;> &lt;xsl:template name=&quot;JDBCQuery-input&quot; match=&quot;/&quot;> &lt;tns:jdbcQueryActivityInput/> &lt;/xsl:template> &lt;/xsl:stylesheet>"
-                                    expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"
                                     inputVariable="getAllEvents-input"
                                     name="getAllEvents"
                                     outputVariable="getAllEvents1"
@@ -2746,7 +2756,9 @@
                                 <bpws:sources>
                                     <bpws:source linkName="ForEachToaddEventsOut"/>
                                 </bpws:sources>
-                                <bpws:forEach counterName="index"
+                                <bpws:sequence name="sequence" tibex:group="foreach">
+                                    <bpws:empty name="GroupInit" tibex:group="groupInit"/>
+                                    <bpws:forEach counterName="index"
                                     name="forEach" parallel="no" tibex:group="foreach">
                                     <tibex:DesignExpression name="final">
                                     <tibex:expression
@@ -2769,13 +2781,15 @@
                                     <bpws:source linkName="GroupStartToJDBCUpdate"/>
                                     </bpws:sources>
                                     </bpws:empty>
-                                    <bpws:empty name="GroupEnd"
+                                    <bpws:empty
+                                    name="GroupEnd"
                                     tibex:group="groupEnd" tibex:xpdlId="1b52cbdd-f607-4c77-aed2-949f0d4457ad">
                                     <bpws:targets>
                                     <bpws:target linkName="JDBCUpdateToGroupEnd"/>
                                     </bpws:targets>
                                     </bpws:empty>
                                     <bpws:extensionActivity>
+
                                     <tibex:activityExtension
                                     expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.tibco.com/namespaces/tnt/plugins/jdbc+783ce8b8-cd03-4639-bd05-ed672b7fadb5+input&quot; xmlns:tns1=&quot;http://www.example.org/Events&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;index&quot;/>&lt;xsl:param name=&quot;addEvents&quot;/>&lt;xsl:template name=&quot;addEvents-input&quot; match=&quot;/&quot;>&lt;tns:jdbcUpdateActivityInput>&lt;summary>&lt;xsl:choose>&lt;xsl:when test=&quot;exists($addEvents/parameters/tns1:Events/tns1:Event[$index]/tns1:summary)&quot;>&lt;xsl:value-of select=&quot;$addEvents/parameters/tns1:Events/tns1:Event[$index]/tns1:summary&quot;/>&lt;/xsl:when>&lt;xsl:otherwise>&lt;xsl:attribute name=&quot;xsi:nil&quot;>true&lt;/xsl:attribute>&lt;/xsl:otherwise>&lt;/xsl:choose>&lt;/summary>&lt;description>&lt;xsl:choose>&lt;xsl:when test=&quot;exists($addEvents/parameters/tns1:Events/tns1:Event[$index]/tns1:description)&quot;>&lt;xsl:value-of select=&quot;$addEvents/parameters/tns1:Events/tns1:Event[$index]/tns1:description&quot;/>&lt;/xsl:when>&lt;xsl:otherwise>&lt;xsl:attribute name=&quot;xsi:nil&quot;>true&lt;/xsl:attribute>&lt;/xsl:otherwise>&lt;/xsl:choose>&lt;/description>&lt;authorName>&lt;xsl:choose>&lt;xsl:when test=&quot;exists($addEvents/parameters/tns1:Events/tns1:Event[$index]/tns1:authorName)&quot;>&lt;xsl:value-of select=&quot;$addEvents/parameters/tns1:Events/tns1:Event[$index]/tns1:authorName&quot;/>&lt;/xsl:when>&lt;xsl:otherwise>&lt;xsl:attribute name=&quot;xsi:nil&quot;>true&lt;/xsl:attribute>&lt;/xsl:otherwise>&lt;/xsl:choose>&lt;/authorName>&lt;bookisbn>&lt;xsl:choose>&lt;xsl:when test=&quot;exists($addEvents/parameters/tns1:Events/tns1:Event[$index]/tns1:bookIsbn)&quot;>&lt;xsl:value-of select=&quot;$addEvents/parameters/tns1:Events/tns1:Event[$index]/tns1:bookIsbn&quot;/>&lt;/xsl:when>&lt;xsl:otherwise>&lt;xsl:attribute name=&quot;xsi:nil&quot;>true&lt;/xsl:attribute>&lt;/xsl:otherwise>&lt;/xsl:choose>&lt;/bookisbn>&lt;date>&lt;xsl:choose>&lt;xsl:when test=&quot;exists($addEvents/parameters/tns1:Events/tns1:Event[$index]/tns1:date)&quot;>&lt;xsl:value-of select=&quot;$addEvents/parameters/tns1:Events/tns1:Event[$index]/tns1:date&quot;/>&lt;/xsl:when>&lt;xsl:otherwise>&lt;xsl:attribute name=&quot;xsi:nil&quot;>true&lt;/xsl:attribute>&lt;/xsl:otherwise>&lt;/xsl:choose>&lt;/date>&lt;id>&lt;xsl:choose>&lt;xsl:when test=&quot;exists($addEvents/parameters/tns1:Events/tns1:Event[$index]/tns1:id)&quot;>&lt;xsl:value-of select=&quot;$addEvents/parameters/tns1:Events/tns1:Event[$index]/tns1:id&quot;/>&lt;/xsl:when>&lt;xsl:otherwise>&lt;xsl:attribute name=&quot;xsi:nil&quot;>true&lt;/xsl:attribute>&lt;/xsl:otherwise>&lt;/xsl:choose>&lt;/id>&lt;/tns:jdbcUpdateActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>"
                                     expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"
@@ -2845,7 +2859,8 @@
                                     </bpws:extensionActivity>
                                     </bpws:flow>
                                     </bpws:scope>
-                                </bpws:forEach>
+                                    </bpws:forEach>
+                                </bpws:sequence>
                             </bpws:scope>
                         </bpws:flow>
                     </bpws:scope>
